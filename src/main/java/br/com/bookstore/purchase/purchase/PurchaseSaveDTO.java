@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -30,4 +31,6 @@ public class PurchaseSaveDTO implements Serializable {
     private double amountToPay;
 
     private Enum<Status> status;
+
+    private String specificID = UUID.randomUUID().toString();
 }

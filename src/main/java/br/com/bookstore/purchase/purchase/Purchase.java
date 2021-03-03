@@ -6,18 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -33,17 +29,28 @@ public class Purchase implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @PrimaryKeyJoinColumn
-    private ClientDTO specificIdClient;
+    private String specificIdClient;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @PrimaryKeyJoinColumn(name = "purchased_books")
-    private Set<BookDTO> specificIdBooks = new HashSet<>();
+    private Set<String> specificIdBooks;
 
     @Column(name = "amount_to_pay")
     private double amountToPay;
 
     @Column(name = "purchase_status")
     private Enum<Status> status;
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "specific_id")
+    private String specificID = UUID.randomUUID().toString();
+
+    public static Purchase to(PurchaseSaveDTO dto) {
+        return Purchase
+                .builder()
+                .specificIdClient(dto.getSpecificIdClient())
+                .specificIdBooks(dto.getSpecificIdBooks())
+                .amountToPay(dto.getAmountToPay())
+                .status(dto.getStatus())
+                .specificID(dto.getSpecificID())
+                .build();
+    }
 }
