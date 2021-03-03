@@ -1,0 +1,24 @@
+server:
+  port: 9000
+#Eureka
+eureka:
+  instance:
+    hostname: localhost
+    secure-port: 8761
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    eureka-server-connect-timeout-seconds: 3000
+#JPA properties
+spring:
+  datasource:
+    schema: classpath:/db/migration/schema
+    url: jdbc:postgresql://tuffi.db.elephantsql.com:5432/wsvmfrcs?createDatabaseIfNotExist=true&useSSL=true
+    driver-class-name: org.postgresql.Driver
+    username: wsvmfrcs
+    password: xDyT9VOeXp2DTaUWGU8clr_b_b6nz5OD
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database: postgresql
