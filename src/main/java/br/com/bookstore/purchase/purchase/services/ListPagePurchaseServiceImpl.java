@@ -2,24 +2,23 @@ package br.com.bookstore.purchase.purchase.services;
 
 import br.com.bookstore.purchase.feign.GetBook;
 import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.purchase.PurchaseRepository;
 import br.com.bookstore.purchase.purchase.PurchaseReturnDTO;
-import br.com.bookstore.purchase.purchase.utils.ReturnAllPurchase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-@RequiredArgsConstructor
 @Service
-public class ListPurchaseServiceImpl implements ListPurchaseService{
+@RequiredArgsConstructor
+public class ListPagePurchaseServiceImpl implements ListPagePurchaseService{
 
-    private final ReturnAllPurchase returnAllPurchase;
+    private final PurchaseRepository purchaseRepository;
     private final GetBook getBook;
     private final GetClient getClient;
 
     @Override
-    public List<PurchaseReturnDTO> findAll() {
-        return returnAllPurchase.findAllPurchase(getBook, getClient);
+    public Page<PurchaseReturnDTO> findPurchase(Pageable pageable) {
+        return null;
     }
 }
-
