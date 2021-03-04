@@ -30,7 +30,7 @@ public class PurchaseSaveDTO implements Serializable {
     @NotNull
     private double amountToPay;
 
-    private Enum<Status> status;
+    private Status status;
 
     private String specificID = UUID.randomUUID().toString();
 }

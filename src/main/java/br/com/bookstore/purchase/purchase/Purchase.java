@@ -8,11 +8,12 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -37,10 +38,10 @@ public class Purchase implements Serializable {
     private double amountToPay;
 
     @Column(name = "purchase_status")
-    private Enum<Status> status;
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "specific_id")
     private String specificID = UUID.randomUUID().toString();
 
     public static Purchase to(PurchaseSaveDTO dto, String specificIdBooks) {

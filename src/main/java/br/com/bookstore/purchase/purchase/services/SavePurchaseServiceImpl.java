@@ -39,9 +39,9 @@ public class SavePurchaseServiceImpl implements SavePurchaseService{
             throw new BookNotFoundException(requisition.getMessage());
         }
 
-        PurchaseSaveDTO purchasesaved = PurchaseSaveDTO.builder().status(Status.PENDING).build();
+        purchaseSaveDTO.setStatus(Status.PENDING);
 
-        Purchase purchase = Purchase.to(purchasesaved, booksID);
+        Purchase purchase = Purchase.to(purchaseSaveDTO, booksID);
 
         purchaseRepository.save(purchase);
     }
