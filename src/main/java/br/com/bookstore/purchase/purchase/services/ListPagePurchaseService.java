@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 @FunctionalInterface
 public interface ListPagePurchaseService {
-    Page<PurchaseReturnDTO> findPurchase(Pageable pageable);
+    Page<PurchaseReturnDTO> findPage(Pageable pageable);
 }
