@@ -31,7 +31,7 @@ public class Purchase implements Serializable {
 
     private String specificIdClient;
 
-    private Set<String> specificIdBooks;
+    private String specificIdBooks;
 
     @Column(name = "amount_to_pay")
     private double amountToPay;
@@ -43,11 +43,11 @@ public class Purchase implements Serializable {
     @Column(name = "specific_id")
     private String specificID = UUID.randomUUID().toString();
 
-    public static Purchase to(PurchaseSaveDTO dto) {
+    public static Purchase to(PurchaseSaveDTO dto, String specificIdBooks) {
         return Purchase
                 .builder()
                 .specificIdClient(dto.getSpecificIdClient())
-                .specificIdBooks(dto.getSpecificIdBooks())
+                .specificIdBooks(specificIdBooks)
                 .amountToPay(dto.getAmountToPay())
                 .status(dto.getStatus())
                 .specificID(dto.getSpecificID())
