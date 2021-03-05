@@ -25,7 +25,7 @@ public class PurchaseReturnDTO implements Serializable {
 
     private double amountToPay;
 
-    private Enum<Status> status;
+    private Status status;
 
     public static PurchaseReturnDTO from(Purchase entity, ClientDTO client, Set<BookDTO> purchasedBooks) {
         return PurchaseReturnDTO
