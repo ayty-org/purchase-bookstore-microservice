@@ -3,7 +3,7 @@ package br.com.bookstore.purchase.purchase.services;
 import br.com.bookstore.purchase.feign.GetBook;
 import br.com.bookstore.purchase.feign.GetClient;
 import br.com.bookstore.purchase.purchase.PurchaseReturnDTO;
-import br.com.bookstore.purchase.purchase.utils.ReturnAllPurchase;
+import br.com.bookstore.purchase.purchase.services.utils.ReturnAllPurchase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

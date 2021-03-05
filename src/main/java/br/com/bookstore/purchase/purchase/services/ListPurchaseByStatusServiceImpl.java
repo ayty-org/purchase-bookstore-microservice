@@ -1,7 +1,6 @@
 package br.com.bookstore.purchase.purchase.services;
 
 import br.com.bookstore.purchase.exceptions.PurchaseNotFoundException;
-import br.com.bookstore.purchase.feign.GetBook;
 import br.com.bookstore.purchase.feign.GetClient;
 import br.com.bookstore.purchase.purchase.BookDTO;
 import br.com.bookstore.purchase.purchase.ClientDTO;
@@ -9,12 +8,11 @@ import br.com.bookstore.purchase.purchase.Purchase;
 import br.com.bookstore.purchase.purchase.PurchaseRepository;
 import br.com.bookstore.purchase.purchase.PurchaseReturnDTO;
 import br.com.bookstore.purchase.purchase.Status;
-import br.com.bookstore.purchase.purchase.utils.ReturnAllPurchase;
+import br.com.bookstore.purchase.purchase.services.utils.ReturnSetBooksOfFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +20,7 @@ import java.util.Set;
 @Service
 public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusService {
 
-    private final ReturnAllPurchase returnAllPurchase;
-    private final GetBook getBook;
+    private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
     private final GetClient getClient;
     private final PurchaseRepository purchaseRepository;
 
@@ -38,12 +35,8 @@ public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusServ
 
         for(Purchase purchase: purchaseList){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
-            Set<BookDTO> purchasedBooksFound = new HashSet<>();
-            for(String book: purchasedBookID) {
-                purchasedBooksFound.add(getBook.findSpecificID(book));
-            }
-            purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, purchasedBooksFound));
+            Set<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
+            purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
         }
 
         return purchaseReturnDTOList;

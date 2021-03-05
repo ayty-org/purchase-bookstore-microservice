@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class DeletePurchaseServiceImpl implements DeletePurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+
     @Override
     public void delete(Long id) {
         if(!purchaseRepository.existsById(id)) {

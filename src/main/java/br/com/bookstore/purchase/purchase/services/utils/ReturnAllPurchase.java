@@ -1,4 +1,4 @@
-package br.com.bookstore.purchase.purchase.utils;
+package br.com.bookstore.purchase.purchase.services.utils;
 
 import br.com.bookstore.purchase.feign.GetBook;
 import br.com.bookstore.purchase.feign.GetClient;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,17 +19,14 @@ import java.util.Set;
 public class ReturnAllPurchase {
 
     private final PurchaseRepository purchaseRepository;
+    private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
 
     public List<PurchaseReturnDTO> findAllPurchase(GetBook getBook, GetClient getClient ) {
         List<PurchaseReturnDTO> purchaseReturnDTOS = new ArrayList<>();
         for(Purchase purchase: purchaseRepository.findAll()){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
-            Set<BookDTO> purchasedBooksFound = new HashSet<>();
-            for(String book: purchasedBookID) {
-                purchasedBooksFound.add(getBook.findSpecificID(book));
-            }
-            purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, purchasedBooksFound));
+            Set<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
+            purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
         }
         return purchaseReturnDTOS;
     }

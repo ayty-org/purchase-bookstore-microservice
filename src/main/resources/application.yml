@@ -11,6 +11,8 @@ eureka:
     eureka-server-connect-timeout-seconds: 3000
 #JPA properties
 spring:
+  profiles:
+    active: dev
   application:
     name: purchase-service
   datasource:
