@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,13 +24,13 @@ public class PurchaseReturnDTO implements Serializable {
 
     private ClientDTO client;
 
-    private Set<BookDTO> purchasedBooks;
+    private List<BookDTO> purchasedBooks;
 
     private double amountToPay;
 
     private Status status;
 
-    public static PurchaseReturnDTO from(Purchase entity, ClientDTO client, Set<BookDTO> purchasedBooks) {
+    public static PurchaseReturnDTO from(Purchase entity, ClientDTO client, List<BookDTO> purchasedBooks) {
         return PurchaseReturnDTO
                 .builder()
                 .id(entity.getId())

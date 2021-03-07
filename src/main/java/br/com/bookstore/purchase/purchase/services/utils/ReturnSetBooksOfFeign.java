@@ -6,8 +6,8 @@ import br.com.bookstore.purchase.purchase.Purchase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -15,9 +15,9 @@ public class ReturnSetBooksOfFeign {
 
     private final GetBook getBook;
 
-    public Set<BookDTO> findAllFeign(Purchase purchase) {
+    public List<BookDTO> findAllFeign(Purchase purchase) {
         String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
-        Set<BookDTO> purchasedBooksFound = new HashSet<>();
+        List<BookDTO> purchasedBooksFound = new ArrayList<>();
         for(String book: purchasedBookID) {
             purchasedBooksFound.add(getBook.findSpecificID(book));
         }

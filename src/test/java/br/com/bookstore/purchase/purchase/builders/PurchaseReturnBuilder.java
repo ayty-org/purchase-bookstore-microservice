@@ -14,7 +14,7 @@ import static br.com.bookstore.purchase.purchase.builders.ClientBuilder.createCl
 
 public class PurchaseReturnBuilder {
     public static PurchaseReturnDTO.Builder createPurchaseReturn(){
-        Set<BookDTO> bookDTOList = new HashSet<>();
+        List<BookDTO> bookDTOList = new ArrayList<>();
         bookDTOList.add(createBook().build());
         bookDTOList.add(createBook().title("meow").specificID("69661bd1-6092-4068-bd28-c60517f8a16s").build());
 

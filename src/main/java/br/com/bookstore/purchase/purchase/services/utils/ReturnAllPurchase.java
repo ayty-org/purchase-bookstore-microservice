@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +24,7 @@ public class ReturnAllPurchase {
         List<PurchaseReturnDTO> purchaseReturnDTOS = new ArrayList<>();
         for(Purchase purchase: purchaseRepository.findAll()){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            Set<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
+            List<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
             purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
         }
         return purchaseReturnDTOS;

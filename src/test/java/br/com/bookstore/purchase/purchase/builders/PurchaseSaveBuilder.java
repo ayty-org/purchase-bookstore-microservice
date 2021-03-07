@@ -3,12 +3,14 @@ package br.com.bookstore.purchase.purchase.builders;
 import br.com.bookstore.purchase.purchase.PurchaseSaveDTO;
 import br.com.bookstore.purchase.purchase.Status;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PurchaseSaveBuilder {
     public static PurchaseSaveDTO.Builder createPurchaseSave(){
-        Set<String> books = new HashSet<>();
+        List<String> books = new ArrayList<>();
         books.add("fe07d7bb-2cac-4c47-b9f0-19aa2df60949");
         return PurchaseSaveDTO
                 .builder()

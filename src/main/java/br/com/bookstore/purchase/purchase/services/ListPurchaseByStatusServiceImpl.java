@@ -35,7 +35,7 @@ public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusServ
 
         for(Purchase purchase: purchaseList){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            Set<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
+            List<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
             purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
         }
 
