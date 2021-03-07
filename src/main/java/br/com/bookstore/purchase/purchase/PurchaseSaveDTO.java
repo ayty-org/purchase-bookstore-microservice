@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(builderClassName = "Builder")
 public class PurchaseSaveDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

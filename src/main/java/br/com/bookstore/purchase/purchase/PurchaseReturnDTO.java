@@ -19,6 +19,8 @@ public class PurchaseReturnDTO implements Serializable {
 
     private Long id;
 
+    private String specificID;
+
     private ClientDTO client;
 
     private Set<BookDTO> purchasedBooks;
@@ -31,6 +33,7 @@ public class PurchaseReturnDTO implements Serializable {
         return PurchaseReturnDTO
                 .builder()
                 .id(entity.getId())
+                .specificID(entity.getSpecificID())
                 .client(client)
                 .purchasedBooks(purchasedBooks)
                 .amountToPay(entity.getAmountToPay())
