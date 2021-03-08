@@ -44,7 +44,7 @@ class SavePurchaseServiceTest {
 
     @Test
     @DisplayName("save returns purchase when successful")
-    void saveReturnsPurchaseWhenSuccessful() {
+    void SaveReturnsPurchaseWhenSuccessful() {
         savePurchaseService.insert(createPurchaseSave().build());
 
         ArgumentCaptor<Purchase> purchaseArgumentCaptor = ArgumentCaptor.forClass(Purchase.class);
