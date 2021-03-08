@@ -1,6 +1,7 @@
 package br.com.bookstore.purchase.purchase.services;
 
 import br.com.bookstore.purchase.exceptions.PurchaseNotFoundException;
+import br.com.bookstore.purchase.feign.GetBook;
 import br.com.bookstore.purchase.feign.GetClient;
 import br.com.bookstore.purchase.purchase.BookDTO;
 import br.com.bookstore.purchase.purchase.ClientDTO;
@@ -14,13 +15,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
 public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusService {
 
-    private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
+    private final GetBook getBook;
     private final GetClient getClient;
     private final PurchaseRepository purchaseRepository;
 
@@ -35,8 +35,12 @@ public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusServ
 
         for(Purchase purchase: purchaseList){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            List<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
-            purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
+            String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
+            List<BookDTO> purchasedBooksFound = new ArrayList<>();
+            for(String book: purchasedBookID) {
+                purchasedBooksFound.add(getBook.findSpecificID(book));
+            }
+            purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, purchasedBooksFound));
         }
 
         return purchaseReturnDTOList;
