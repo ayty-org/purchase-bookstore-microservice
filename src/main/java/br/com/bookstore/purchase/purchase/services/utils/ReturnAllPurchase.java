@@ -18,14 +18,17 @@ import java.util.List;
 public class ReturnAllPurchase {
 
     private final PurchaseRepository purchaseRepository;
-    private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
 
     public List<PurchaseReturnDTO> findAllPurchase(GetBook getBook, GetClient getClient ) {
         List<PurchaseReturnDTO> purchaseReturnDTOS = new ArrayList<>();
         for(Purchase purchase: purchaseRepository.findAll()){
             ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
-            List<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
-            purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
+            String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
+            List<BookDTO> purchasedBooksFound = new ArrayList<>();
+            for(String book: purchasedBookID) {
+                purchasedBooksFound.add(getBook.findSpecificID(book));
+            }
+            purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, purchasedBooksFound));
         }
         return purchaseReturnDTOS;
     }
