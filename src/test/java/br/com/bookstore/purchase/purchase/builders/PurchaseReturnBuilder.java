@@ -5,9 +5,7 @@ import br.com.bookstore.purchase.purchase.PurchaseReturnDTO;
 import br.com.bookstore.purchase.purchase.Status;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static br.com.bookstore.purchase.purchase.builders.BookBuilder.createBook;
 import static br.com.bookstore.purchase.purchase.builders.ClientBuilder.createClient;
