@@ -1,0 +1,338 @@
+
+#informações da api
+openapi: 3.0.1
+info:
+  description: "📚 Microservice Purchase to api Bookstore management system made with SpringBoot. 💳 Phoebus @paystore
+    training project in partnership with @ayty-org"
+  version: "1.0.0"
+  title: "Book-Store: purchase"
+  contact:
+    email: "josinaldo.pontes@phoebustecnologia.com.br"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: "purchase-controller"
+    description: "All about purchase in book store"
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+
+servers:
+  - url: https://localhost:9090
+  - url: http://localhost:9090/v3/docs
+paths:
+  /v1/api/purchase/done/{id}:
+    put:
+      tags:
+        - purchase-controller
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: No Content
+  /v1/api/purchase:
+    post:
+      tags:
+        - purchase-controller
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseSaveDTO'
+        required: true
+      responses:
+        "201":
+          description: Created
+  /v1/api/purchase/{id}:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PurchaseReturnDTO'
+    delete:
+      tags:
+        - purchase-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: No Content
+  /v1/api/purchase/status/{status}:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findAllPurchaseByStatus
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - DONE
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseReturnDTO'
+  /v1/api/purchase/all:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PurchaseReturnDTO'
+  /v1/api/purchase/:
+    get:
+      tags:
+        - purchase-controller
+      operationId: findPage
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PagePurchaseReturnDTO'
+components:
+  schemas:
+    PurchaseSaveDTO:
+      required:
+        - amountToPay
+        - specificIdBooks
+        - specificIdClient
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        specificIdClient:
+          type: string
+        specificIdBooks:
+          type: array
+          items:
+            type: string
+        amountToPay:
+          type: number
+          format: double
+        status:
+          type: string
+          enum:
+            - PENDING
+            - DONE
+        specificID:
+          type: string
+    BookDTO:
+      required:
+        - autor
+        - categories
+        - isbn
+        - quantityAvailable
+        - sellPrice
+        - sinopse
+        - specificID
+        - title
+        - yearOfPublication
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        sinopse:
+          maxLength: 500
+          minLength: 0
+          type: string
+        autor:
+          maxLength: 2147483647
+          minLength: 1
+          type: string
+        isbn:
+          maxLength: 17
+          minLength: 17
+          type: string
+        yearOfPublication:
+          type: string
+          format: date
+        sellPrice:
+          minimum: 0.00
+          exclusiveMinimum: false
+          type: number
+          format: double
+        quantityAvailable:
+          minimum: 0
+          type: integer
+          format: int32
+        specificID:
+          type: string
+        categories:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryDTO'
+    CategoryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    ClientDTO:
+      required:
+        - age
+        - email
+        - name
+        - phone
+        - sexo
+        - specificID
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          minimum: 2
+          type: integer
+          format: int32
+        phone:
+          type: string
+        email:
+          type: string
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+            - OUTRO
+        specificID:
+          type: string
+    PurchaseReturnDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        specificID:
+          type: string
+        client:
+          $ref: '#/components/schemas/ClientDTO'
+        purchasedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookDTO'
+        amountToPay:
+          type: number
+          format: double
+        status:
+          type: string
+          enum:
+            - PENDING
+            - DONE
+    Pageable:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        offset:
+          type: integer
+          format: int64
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    PagePurchaseReturnDTO:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseReturnDTO'
+        empty:
+          type: boolean
