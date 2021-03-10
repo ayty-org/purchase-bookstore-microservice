@@ -19,7 +19,6 @@ public class ReturnAllPurchase {
 
     private final PurchaseRepository purchaseRepository;
     private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
-    //TODO mudar nome
     private final FeignGetBook feignGetBook;
     private final FeignGetClient feignGetClient;
 

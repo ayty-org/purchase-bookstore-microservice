@@ -15,7 +15,6 @@ public class BookBuilder {
         Set<CategoryDTO> categoryDTOS = new HashSet<>();
         categoryDTOS.add(createCategory().build());
         return BookDTO.builder()
-                .id(1L)
                 .title("O Pequeno Príncipe")
                 .sinopse("O Pequeno Príncipe representa a espontaneidade.")
                 .isbn("978-3-16-148410-0")
