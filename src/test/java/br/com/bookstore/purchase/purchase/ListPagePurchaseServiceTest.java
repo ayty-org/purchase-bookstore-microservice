@@ -1,7 +1,7 @@
 package br.com.bookstore.purchase.purchase;
 
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.services.ListPagePurchaseServiceImpl;
 import br.com.bookstore.purchase.purchase.services.utils.ReturnAllPurchase;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import static br.com.bookstore.purchase.purchase.builders.BookBuilder.createBook;
 import static br.com.bookstore.purchase.purchase.builders.ClientBuilder.createClient;
 import static br.com.bookstore.purchase.purchase.builders.PurchaseReturnBuilder.createPurchaseReturn;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -38,16 +37,16 @@ class ListPagePurchaseServiceTest {
     private ReturnAllPurchase returnAllPurchase;
 
     @Mock
-    private GetBook getBook;
+    private FeignGetBook feignGetBook;
 
     @Mock
-    private GetClient getClient;
+    private FeignGetClient feignGetClient;
 
     private ListPagePurchaseServiceImpl listPagePurchaseService;
 
     @BeforeEach
     void setUp() {
-        this.listPagePurchaseService = new ListPagePurchaseServiceImpl(returnAllPurchase, getBook, getClient);
+        this.listPagePurchaseService = new ListPagePurchaseServiceImpl(returnAllPurchase, feignGetBook, feignGetClient);
     }
 
     @Test
@@ -56,12 +55,12 @@ class ListPagePurchaseServiceTest {
 
         Pageable pageable = PageRequest.of(0,2);
 
-        when(returnAllPurchase.findAllPurchase(getBook, getClient)).thenReturn(Stream.of(
+        when(returnAllPurchase.findAllPurchase()).thenReturn(Stream.of(
                 createPurchaseReturn().specificID("69661bd1-6092-4068-bd28-c60517f8a16a").build(),
                 createPurchaseReturn().specificID("69661bd1-6092-4068-bd28-c60517f8a16b").build()).collect(Collectors.toList())
         );
 
-        lenient().when(getClient.findSpecificID(anyString())).thenReturn(createClient().build());
+        lenient().when(feignGetClient.findSpecificID(anyString())).thenReturn(createClient().build());
 
         Page<PurchaseReturnDTO> result = this.listPagePurchaseService.findPage(pageable);
 
@@ -74,6 +73,6 @@ class ListPagePurchaseServiceTest {
                 ()-> assertThat(result.getContent().get(0).getStatus(), is(Status.PENDING))
         );
 
-        verify(returnAllPurchase).findAllPurchase(getBook,getClient);
+        verify(returnAllPurchase).findAllPurchase();
     }
 }

@@ -2,8 +2,8 @@ package br.com.bookstore.purchase.purchase.services;
 
 import br.com.bookstore.purchase.exceptions.BookNotFoundException;
 import br.com.bookstore.purchase.exceptions.ClientNotFoundException;
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.Purchase;
 import br.com.bookstore.purchase.purchase.PurchaseRepository;
 import br.com.bookstore.purchase.purchase.PurchaseSaveDTO;
@@ -12,26 +12,28 @@ import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class SavePurchaseServiceImpl implements SavePurchaseService{
 
     private final PurchaseRepository purchaseRepository;
-    private final GetBook getBook;
-    private final GetClient getClient;
+    private final FeignGetBook feignGetBook;
+    private final FeignGetClient feignGetClient;
 
     @Override
     public void insert(PurchaseSaveDTO purchaseSaveDTO) {
         String booksID = "";
         try {
-            getClient.findSpecificID(purchaseSaveDTO.getSpecificIdClient());
+            feignGetClient.findSpecificID(purchaseSaveDTO.getSpecificIdClient());
         } catch (FeignException.NotFound requisition){
             throw new ClientNotFoundException(requisition.getMessage());
         }
 
         try {
             for(String books: purchaseSaveDTO.getSpecificIdBooks()){
-                getBook.findSpecificID(books);
+                feignGetBook.findSpecificID(books);
                 booksID += books;
                 booksID += ",";
             }
@@ -42,6 +44,8 @@ public class SavePurchaseServiceImpl implements SavePurchaseService{
         purchaseSaveDTO.setStatus(Status.PENDING);
 
         Purchase purchase = Purchase.to(purchaseSaveDTO, booksID);
+
+        purchase.setSpecificID(UUID.randomUUID().toString());
 
         purchaseRepository.save(purchase);
     }

@@ -52,7 +52,7 @@ public class PurchaseControllerV1 {
         return getPurchaseService.findById(id);
     }
 
-    @GetMapping(value = {"/"})//list all purchase inside object page
+    @GetMapping//list all purchase inside object page
     @ResponseStatus(HttpStatus.OK)
     public Page<PurchaseReturnDTO> findPage(Pageable pageable){
         return listPagePurchaseService.findPage(pageable);

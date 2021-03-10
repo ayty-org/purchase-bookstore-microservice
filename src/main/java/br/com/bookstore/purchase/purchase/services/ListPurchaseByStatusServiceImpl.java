@@ -1,15 +1,14 @@
 package br.com.bookstore.purchase.purchase.services;
 
 import br.com.bookstore.purchase.exceptions.PurchaseNotFoundException;
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.BookDTO;
 import br.com.bookstore.purchase.purchase.ClientDTO;
 import br.com.bookstore.purchase.purchase.Purchase;
 import br.com.bookstore.purchase.purchase.PurchaseRepository;
 import br.com.bookstore.purchase.purchase.PurchaseReturnDTO;
 import br.com.bookstore.purchase.purchase.Status;
-import br.com.bookstore.purchase.purchase.services.utils.ReturnSetBooksOfFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +19,8 @@ import java.util.List;
 @Service
 public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusService {
 
-    private final GetBook getBook;
-    private final GetClient getClient;
+    private final FeignGetBook feignGetBook;
+    private final FeignGetClient feignGetClient;
     private final PurchaseRepository purchaseRepository;
 
     @Override
@@ -34,11 +33,11 @@ public class ListPurchaseByStatusServiceImpl implements ListPurchaseByStatusServ
         }
 
         for(Purchase purchase: purchaseList){
-            ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
+            ClientDTO clientDTO = feignGetClient.findSpecificID(purchase.getSpecificIdClient());
             String[] purchasedBookID = purchase.getSpecificIdBooks().split(",");
             List<BookDTO> purchasedBooksFound = new ArrayList<>();
             for(String book: purchasedBookID) {
-                purchasedBooksFound.add(getBook.findSpecificID(book));
+                purchasedBooksFound.add(feignGetBook.findSpecificID(book));
             }
             purchaseReturnDTOList.add(PurchaseReturnDTO.from(purchase, clientDTO, purchasedBooksFound));
         }

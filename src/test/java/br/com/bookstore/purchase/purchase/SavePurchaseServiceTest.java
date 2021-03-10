@@ -1,7 +1,7 @@
 package br.com.bookstore.purchase.purchase;
 
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.services.SavePurchaseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,16 +27,16 @@ class SavePurchaseServiceTest {
     private PurchaseRepository purchaseRepository;
 
     @Mock
-    private GetBook getBook;
+    private FeignGetBook feignGetBook;
 
     @Mock
-    private GetClient getClient;
+    private FeignGetClient feignGetClient;
 
     private SavePurchaseServiceImpl savePurchaseService;
 
     @BeforeEach
     void setUp() {
-        this.savePurchaseService = new SavePurchaseServiceImpl(purchaseRepository, getBook, getClient);
+        this.savePurchaseService = new SavePurchaseServiceImpl(purchaseRepository, feignGetBook, feignGetClient);
     }
 
     @Test

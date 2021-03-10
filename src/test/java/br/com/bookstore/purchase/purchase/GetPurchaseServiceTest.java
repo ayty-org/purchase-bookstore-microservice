@@ -1,8 +1,8 @@
 package br.com.bookstore.purchase.purchase;
 
 import br.com.bookstore.purchase.exceptions.PurchaseNotFoundException;
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.services.GetPurchaseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static br.com.bookstore.purchase.purchase.builders.BookBuilder.createBook;
 import static br.com.bookstore.purchase.purchase.builders.ClientBuilder.createClient;
@@ -38,16 +36,16 @@ public class GetPurchaseServiceTest {
     private PurchaseRepository purchaseRepositoryMock;
 
     @Mock
-    private GetClient getClient;
+    private FeignGetClient feignGetClient;
 
     @Mock
-    private GetBook getBook;
+    private FeignGetBook feignGetBook;
 
     private GetPurchaseServiceImpl getPurchaseService;
 
     @BeforeEach
     void setUp() {
-        this.getPurchaseService = new GetPurchaseServiceImpl(purchaseRepositoryMock, getBook, getClient);
+        this.getPurchaseService = new GetPurchaseServiceImpl(purchaseRepositoryMock, feignGetBook, feignGetClient);
     }
 
     @Test
@@ -55,11 +53,11 @@ public class GetPurchaseServiceTest {
     void findByIdPurchasePurchaseNotFoundExceptionWhenPurchaseWhen() {
         when(purchaseRepositoryMock.findById(anyLong())).thenReturn(Optional.of(createPurchase().build()));
 
-        when(getClient.findSpecificID(anyString())).thenReturn(createClient().build());
+        when(feignGetClient.findSpecificID(anyString())).thenReturn(createClient().build());
 
         BookDTO bookDTO = createBook().build();
 
-        when(getBook.findSpecificID(anyString())).thenReturn(bookDTO);
+        when(feignGetBook.findSpecificID(anyString())).thenReturn(bookDTO);
 
         PurchaseReturnDTO result = this.getPurchaseService.findById(1L);
 

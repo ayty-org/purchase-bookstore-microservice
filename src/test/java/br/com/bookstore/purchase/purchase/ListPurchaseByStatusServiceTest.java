@@ -1,9 +1,8 @@
 package br.com.bookstore.purchase.purchase;
 
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.services.ListPurchaseByStatusServiceImpl;
-import br.com.bookstore.purchase.purchase.services.utils.ReturnSetBooksOfFeign;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -36,16 +35,16 @@ class ListPurchaseByStatusServiceTest {
     private PurchaseRepository purchaseRepository;
 
     @Mock
-    private GetBook getBook;
+    private FeignGetBook feignGetBook;
 
     @Mock
-    private GetClient getClient;
+    private FeignGetClient feignGetClient;
 
     private ListPurchaseByStatusServiceImpl listPurchaseByStatusService;
 
     @BeforeEach
     void setUp() {
-        this.listPurchaseByStatusService = new ListPurchaseByStatusServiceImpl(getBook, getClient, purchaseRepository);
+        this.listPurchaseByStatusService = new ListPurchaseByStatusServiceImpl(feignGetBook, feignGetClient, purchaseRepository);
     }
 
     @Test
@@ -54,11 +53,11 @@ class ListPurchaseByStatusServiceTest {
 
         when(purchaseRepository.findPurchaseByStatus(any())).thenReturn(Stream.of(createPurchase().build()).collect(Collectors.toList()));
 
-        when(getClient.findSpecificID(anyString())).thenReturn(createClient().build());
+        when(feignGetClient.findSpecificID(anyString())).thenReturn(createClient().build());
 
         BookDTO bookDTO = createBook().build();
 
-        when(getBook.findSpecificID(anyString())).thenReturn(bookDTO);
+        when(feignGetBook.findSpecificID(anyString())).thenReturn(bookDTO);
 
         List<PurchaseReturnDTO> result = this.listPurchaseByStatusService.findAllPurchaseByStatus(Status.PENDING);
 

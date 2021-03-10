@@ -1,7 +1,7 @@
 package br.com.bookstore.purchase.purchase;
 
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.services.ListPurchaseServiceImpl;
 import br.com.bookstore.purchase.purchase.services.utils.ReturnAllPurchase;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,22 +33,22 @@ class ListPurchaseServiceTest {
     private ReturnAllPurchase returnAllPurchase;
 
     @Mock
-    private GetBook getBook;
+    private FeignGetBook feignGetBook;
 
     @Mock
-    private GetClient getClient;
+    private FeignGetClient feignGetClient;
 
     private ListPurchaseServiceImpl listPurchaseService;
 
     @BeforeEach
     void setUp() {
-        this.listPurchaseService = new ListPurchaseServiceImpl(returnAllPurchase, getBook, getClient);
+        this.listPurchaseService = new ListPurchaseServiceImpl(returnAllPurchase);
     }
 
     @Test
     @DisplayName("listAll returns list of purchase when successful")
     void listAllReturnsListOfPurchaseWhenSuccessful() {
-        when(returnAllPurchase.findAllPurchase(getBook, getClient)).thenReturn(Stream.of(createPurchaseReturn().build()).collect(Collectors.toList()));
+        when(returnAllPurchase.findAllPurchase()).thenReturn(Stream.of(createPurchaseReturn().build()).collect(Collectors.toList()));
 
         List<PurchaseReturnDTO> result = this.listPurchaseService.findAll();
 
@@ -60,6 +60,6 @@ class ListPurchaseServiceTest {
                 ()-> assertThat(result.get(0).getStatus(), is(Status.PENDING))
         );
 
-        verify(returnAllPurchase, times(1)).findAllPurchase(getBook, getClient);
+        verify(returnAllPurchase, times(1)).findAllPurchase();
     }
 }

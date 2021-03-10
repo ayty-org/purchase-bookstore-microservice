@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,7 +21,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder(builderClassName = "Builder")
 public class BookDTO {
-    private Long id;
 
     @NotNull
     private String title;
@@ -52,7 +50,7 @@ public class BookDTO {
     private int quantityAvailable;
 
     @NotNull
-    private String specificID = UUID.randomUUID().toString();
+    private String specificID;
 
     @NotNull
     private Set<CategoryDTO> categories = new HashSet<>();

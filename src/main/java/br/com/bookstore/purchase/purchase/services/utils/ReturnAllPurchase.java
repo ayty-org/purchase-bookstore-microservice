@@ -1,7 +1,7 @@
 package br.com.bookstore.purchase.purchase.services.utils;
 
-import br.com.bookstore.purchase.feign.GetBook;
-import br.com.bookstore.purchase.feign.GetClient;
+import br.com.bookstore.purchase.feign.FeignGetBook;
+import br.com.bookstore.purchase.feign.FeignGetClient;
 import br.com.bookstore.purchase.purchase.BookDTO;
 import br.com.bookstore.purchase.purchase.ClientDTO;
 import br.com.bookstore.purchase.purchase.Purchase;
@@ -19,11 +19,14 @@ public class ReturnAllPurchase {
 
     private final PurchaseRepository purchaseRepository;
     private final ReturnSetBooksOfFeign returnSetBooksOfFeign;
+    //TODO mudar nome
+    private final FeignGetBook feignGetBook;
+    private final FeignGetClient feignGetClient;
 
-    public List<PurchaseReturnDTO> findAllPurchase(GetBook getBook, GetClient getClient ) {
+    public List<PurchaseReturnDTO> findAllPurchase() {
         List<PurchaseReturnDTO> purchaseReturnDTOS = new ArrayList<>();
         for(Purchase purchase: purchaseRepository.findAll()){
-            ClientDTO clientDTO = getClient.findSpecificID(purchase.getSpecificIdClient());
+            ClientDTO clientDTO = feignGetClient.findSpecificID(purchase.getSpecificIdClient());
             List<BookDTO> bookDTOSet = returnSetBooksOfFeign.findAllFeign(purchase);
             purchaseReturnDTOS.add(PurchaseReturnDTO.from(purchase, clientDTO, bookDTOSet));
         }

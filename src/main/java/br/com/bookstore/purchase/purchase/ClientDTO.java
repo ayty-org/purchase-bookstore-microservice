@@ -13,17 +13,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(builderClassName = "Builder")
-public class ClientDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private Long id;
+public class ClientDTO {
 
     @NotEmpty(message = "The client name cannot be empty")
     private String name;
@@ -44,5 +40,5 @@ public class ClientDTO implements Serializable {
     private Sex sexo;
 
     @NotNull
-    private String specificID = UUID.randomUUID().toString();
+    private String specificID;
 }

@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,7 +25,6 @@ public class Purchase implements Serializable {
     private static final long serialVersionUID = 923870238720232L;
 
     @Id
-    @Column(name = "purchase_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -34,15 +32,13 @@ public class Purchase implements Serializable {
 
     private String specificIdBooks;
 
-    @Column(name = "amount_to_pay")
     private double amountToPay;
 
-    @Column(name = "purchase_status")
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String specificID = UUID.randomUUID().toString();
+    private String specificID;
 
     public static Purchase to(PurchaseSaveDTO dto, String specificIdBooks) {
         return Purchase
