@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for update purchase")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis pela compra de atualizações")
 class UpdatePurchaseServiceTest {
 
     @Mock
@@ -36,7 +36,7 @@ class UpdatePurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("update purchase when successful")
+    @DisplayName("atualize a compra quando for bem-sucedida")
     void UpdateReturnsPurchaseUpdateWhenSuccessful(){
         when(purchaseRepository.findById(1L)).thenReturn(Optional.of(createPurchase().build()));
         updatePurchaseService.update(1L);

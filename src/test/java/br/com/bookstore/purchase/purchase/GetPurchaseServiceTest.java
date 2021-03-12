@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for searching for purchase by id ")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis pela busca de compra por id ")
 public class GetPurchaseServiceTest {
 
     @Mock
@@ -72,7 +72,7 @@ public class GetPurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("findById throws PurchaseNotFoundException when purchase is not found")
+    @DisplayName("findById lança PurchaseNotFoundException quando a compra não é encontrada")
     void findByIdPurchaseThrowPurchaseNotFoundExceptionWhenPurchaseNotFound() {
         when(purchaseRepositoryMock.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(PurchaseNotFoundException.class, ()-> getPurchaseService.findById(1L));

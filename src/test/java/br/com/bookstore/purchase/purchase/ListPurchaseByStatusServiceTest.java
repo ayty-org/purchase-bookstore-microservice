@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for list all purchase by status")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis por listar todas as compras por status")
 class ListPurchaseByStatusServiceTest {
 
     @Mock
@@ -48,7 +48,7 @@ class ListPurchaseByStatusServiceTest {
     }
 
     @Test
-    @DisplayName("listAll returns list of purchase by status when successful")
+    @DisplayName("listAll retorna a lista de compras por status quando bem-sucedida")
     void listAllReturnsListOfPurchaseWhenSuccessful() {
 
         when(purchaseRepository.findPurchaseByStatus(any())).thenReturn(Stream.of(createPurchase().build()).collect(Collectors.toList()));

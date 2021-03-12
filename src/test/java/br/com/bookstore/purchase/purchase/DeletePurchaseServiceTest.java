@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for delete purchase")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis por excluir compra")
 class DeletePurchaseServiceTest {
 
     @Mock
@@ -32,7 +32,7 @@ class DeletePurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("delete remove purchase when successful")
+    @DisplayName("delete remova a compra quando bem sucedida")
     void deleteRemovePurchaseWhenSuccessful() {
 
         when(purchaseRepositoryMock.existsById(anyLong())).thenReturn(true);
@@ -41,7 +41,7 @@ class DeletePurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("delete throws PurchaseFoundException when purchase is not found")
+    @DisplayName("delete lança PurchaseFoundException quando a compra não é encontrada")
     void deleteThrowPurchaseWhenPurchaseNotFound() {
 
         when(purchaseRepositoryMock.existsById(anyLong())).thenReturn(false);

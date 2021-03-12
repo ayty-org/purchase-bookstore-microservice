@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = PurchaseControllerV1.class)
-@DisplayName("Verify all the endpoints utilizing the implemented services")
+@DisplayName("Verifique todos os endpoints utilizando os serviços implementados")
 class PurchaseControllerV1Test {
 
     private final String URL_PURCHASE = "/v1/api/purchase";
@@ -80,7 +80,7 @@ class PurchaseControllerV1Test {
     private UpdatePurchaseService updatePurchaseService;
 
     @Test
-    @DisplayName("findById return purchase when succesful")
+    @DisplayName("findById devolver a compra quando bem sucedida")
     void findByIdReturnPurchaseWhenSuccessful() throws Exception {
         when(getPurchaseService.findById(anyLong())).thenReturn(createPurchaseReturn().build());
 
@@ -97,7 +97,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("findById throws PurchaseNotFoundException when purchase is not found")
+    @DisplayName("findById lança PurchaseNotFoundException quando a compra não é encontrada")
     void findByIdPurchaseThrowPurchaseNotFoundExceptionWhenPurchaseNotFound() throws Exception {
 
         when(getPurchaseService.findById(anyLong())).thenThrow(new PurchaseNotFoundException());
@@ -110,7 +110,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("listAll returns list of purchase when successful")
+    @DisplayName("listAll retorna a lista de compra quando bem-sucedida")
     void listAllReturnsListOfPurchaseWhenSuccessfull() throws Exception {
 
         when(listPurchaseService.findAll()).thenReturn(Lists.newArrayList(
@@ -137,7 +137,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("listAll returns list of purchase inside page object when successful")
+    @DisplayName("listAll retorna a lista de compras dentro do objeto da página quando bem-sucedido")
     void listAllReturnsListOfPurchaseInsidePageObject_WhenSuccessful() throws Exception{
 
         Page<PurchaseReturnDTO> purchasePage = new PageImpl<>(Collections.singletonList(createPurchaseReturn().build()));
@@ -159,7 +159,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("listAll returns list of purchase by status when successful")
+    @DisplayName("listAll retorna a lista de compras por status quando bem-sucedida")
     void listAllByStatusReturnsListOfPurchaseWhenSuccessful() throws Exception {
 
         PurchaseReturnDTO purchase = createPurchaseReturn().build();
@@ -181,7 +181,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("save returns purchase when successful")
+    @DisplayName("save devolve a compra quando bem sucedida")
     void saveReturnsPurchaseWhenSuccessful() throws Exception{
         mockMvc.perform(post(URL_PURCHASE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -193,7 +193,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("update purchase when successful")
+    @DisplayName("update comprar quando bem sucedido")
     void updateReturnsPurchaseUpdateWhenSuccessful() throws Exception{
         mockMvc.perform(put(URL_PURCHASE + "/done/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -204,7 +204,7 @@ class PurchaseControllerV1Test {
     }
 
     @Test
-    @DisplayName("delete remove purchase when successful")
+    @DisplayName("delete remove a compra quando bem sucedida")
     void deleteRemovePurchaseWhenSuccessful() throws Exception{
         mockMvc.perform(delete(URL_PURCHASE + "/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON))

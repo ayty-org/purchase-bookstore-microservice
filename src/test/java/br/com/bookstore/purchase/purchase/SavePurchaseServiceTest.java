@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for save purchase")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis pela compra salva")
 class SavePurchaseServiceTest {
 
     @Mock
@@ -40,7 +40,7 @@ class SavePurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("save returns purchase when successful")
+    @DisplayName("save devolve a compra quando bem sucedida")
     void SaveReturnsPurchaseWhenSuccessful() {
         savePurchaseService.insert(createPurchaseSave().build());
 

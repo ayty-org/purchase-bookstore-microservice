@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("Service")
-@DisplayName("Validates the functionality of the services responsible for pagination of all purchase")
+@DisplayName("Valida a funcionalidade dos serviços responsáveis pela paginação de todas as compras")
 class ListPagePurchaseServiceTest {
 
     @Mock
@@ -50,7 +50,7 @@ class ListPagePurchaseServiceTest {
     }
 
     @Test
-    @DisplayName("listAll returns list of purchase inside page object when successful")
+    @DisplayName("listAll retorna a lista de compras dentro do objeto da página quando bem-sucedido")
     void listAllReturnsListOfPurchaseInsidePageObjectWhenSuccessful() {
 
         Pageable pageable = PageRequest.of(0,2);
