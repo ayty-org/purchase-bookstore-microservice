@@ -43,9 +43,8 @@ public class SavePurchaseServiceImpl implements SavePurchaseService{
 
         purchaseSaveDTO.setStatus(Status.PENDING);
 
-        Purchase purchase = Purchase.to(purchaseSaveDTO, booksID);
 
-        purchase.setSpecificID(UUID.randomUUID().toString());
+        Purchase purchase = Purchase.to(purchaseSaveDTO, booksID);
 
         purchaseRepository.save(purchase);
     }

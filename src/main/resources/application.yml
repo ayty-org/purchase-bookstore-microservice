@@ -16,6 +16,7 @@ spring:
   application:
     name: purchase-service
   datasource:
+    schema: classpath:/db/migration/schema
     url: jdbc:postgresql://tuffi.db.elephantsql.com:5432/wsvmfrcs?createDatabaseIfNotExist=true&useSSL=true
     driver-class-name: org.postgresql.Driver
     username: wsvmfrcs
@@ -25,3 +26,7 @@ spring:
       ddl-auto: create
     show-sql: true
     database: postgresql
+  flyway:
+    baseline-on-migrate: false
+    enabled: false
+    locations: classpath:/db/migration

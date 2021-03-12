@@ -29,9 +29,7 @@ public class PurchaseSaveDTO implements Serializable {
     @NotNull
     private double amountToPay;
 
-    @NotNull
     private Status status;
 
-    @NotNull
     private String specificID;
 }
